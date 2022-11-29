@@ -18,7 +18,7 @@ def balls():
         ball=sprite.add("balls__2",x,y,costume_in_list)
         sprite.set_size(ball,size,size)
 
-        a={"id":ball,"size":size,"speed_x":speed_x,"speed_y":speed_y}
+        a={"id":ball,"size":size,"speed_x":speed_x,"speed_y":speed_y,"g":0}
         a_lot_of_ball.append(a)
 
         wrap.sprite.move_left_to(balls_on_face, 0)
@@ -147,14 +147,27 @@ def fly():
             if bottom_ball>500:
                 clov_in_lict["speed_y"]=-clov_in_lict["speed_y"]
 
-v=1
+
 @wrap.always(delay=10)
 def dropping():
-    global v
     if mode=="fall":
+        print(a_lot_of_ball[0]["g"])
         for abc in a_lot_of_ball:
-            wrap.sprite.move(abc["id"],0,v)
-            v+=0.1
+            bot_id=wrap.sprite.get_bottom(abc["id"])
+
+            if bot_id>=500:
+                wrap.sprite.move_bottom_to(abc["id"],500)
+                if abc["g"]<0.5:
+                    abc["g"]=0
+                else:
+                    abc["g"]=-abc["g"]*0.8
+            else:
+
+                abc["g"]+=0.1
+            wrap.sprite.move(abc["id"], 0, abc["g"])
+
+
+
 
 
 
